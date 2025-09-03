@@ -18,6 +18,7 @@ ApplicationWindow {
     font.family: openSans.name
 
     property bool showSecretMenu: false
+    property bool openBracket: true
 
     Item {
         anchors.fill: parent
@@ -70,6 +71,7 @@ ApplicationWindow {
             anchors.right: parent.right
             color: "#024873"
 
+
             Grid {
                 id: keyGrid
                 anchors.fill: parent
@@ -80,7 +82,14 @@ ApplicationWindow {
 
                 property int btnSize: 64
 
-                CalcButton { text: "()" ; bg: "#0889A6"; textColor: "#FFFFFF" }
+                CalcButton { text: "()" ; bg: "#0889A6"; textColor: "#FFFFFF"; onClicked: {
+                        if (openBracket) {
+                            calc.inputParenthesis("(")
+                        } else {
+                            calc.inputParenthesis(")")
+                        }
+                        openBracket = !openBracket
+                    } }
                 CalcButton { text: "+/-" ; bg: "#0889A6"; textColor: "#FFFFFF" ; onClicked: calc.toggleSign() }
                 CalcButton { text: "%" ; bg: "#0889A6"; textColor: "#FFFFFF" ; onClicked: calc.pressPercent() }
                 CalcButton { text: "÷" ; bg: "#0889A6"; textColor: "#FFFFFF" ; onClicked: calc.pressOperator("/") }

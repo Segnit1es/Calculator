@@ -1,5 +1,6 @@
 #include "calculatorlogic.h"
 #include <QDebug>
+#include <QJSEngine>
 
 CalculatorLogic::CalculatorLogic(QObject *parent)
     : QObject(parent)
@@ -21,136 +22,68 @@ CalculatorLogic::CalculatorLogic(QObject *parent)
             qDebug() << "Secret mode deactivated. Timeout.";
         }
     });
+
     clearAll();
 }
 
 void CalculatorLogic::inputDigit(const QString &digit)
 {
-    if (m_secretModeActive) {
-        checkSecretCode(digit);
-        return;
-    }
-    if (m_op.isEmpty()) {
-        m_left += digit;
-        m_result = m_left;
-    } else {
-        m_right += digit;
-        m_result = m_right;
-    }
-
-    updateExpression();
-    emit resultChanged();
+    if (m_secretModeActive) { checkSecretCode(digit); return; }
+    m_expression += digit;
+    emit expressionChanged();
 }
 
 void CalculatorLogic::inputDot()
 {
-    QString &target = m_op.isEmpty() ? m_left : m_right;
-    if (!target.contains('.'))
-        target += '.';
-    m_result = target;
-    updateExpression();
-    emit resultChanged();
+    m_expression += ".";
+    emit expressionChanged();
 }
 
 void CalculatorLogic::pressOperator(const QString &op)
 {
-    if (!m_left.isEmpty()) {
-        if (!m_right.isEmpty()) {
-            pressEquals();
-        }
-        m_op = op;
-    }
-    updateExpression();
+    m_expression += op;
+    emit expressionChanged();
 }
 
-void CalculatorLogic::pressEquals()
+void CalculatorLogic::inputParenthesis(const QString &par)
 {
-    if (!m_left.isEmpty() && !m_right.isEmpty() && !m_op.isEmpty()) {
-        double a = m_left.toDouble();
-        double b = m_right.toDouble();
-        double res = calculate(a, b, m_op);
-
-        m_expression = m_left + " " + m_op + " " + m_right;
-        emit expressionChanged();
-
-        m_result = QString::number(res, 'g', 15);
-        emit resultChanged();
-
-        m_left = QString::number(res, 'g', 15);
-        m_right.clear();
-        m_op.clear();
-    }
+    m_expression += par;
+    emit expressionChanged();
 }
 
 void CalculatorLogic::pressPercent()
 {
-    if (!m_left.isEmpty()) {
-        if (!m_right.isEmpty() && !m_op.isEmpty()) {
-            // классическое поведение: "200 + 10%" = 220
-            double a = m_left.toDouble();
-            double b = m_right.toDouble();
-            double percent = a * b / 100.0;
-            m_right = QString::number(percent, 'g', 15);
-            m_result = m_right;
-        } else {
-            // если введено только число: "50 %" = 0.5
-            double a = m_left.toDouble();
-            a = a / 100.0;
-            m_left = QString::number(a, 'g', 15);
-            m_result = m_left;
-        }
-        updateExpression();
-        updateResult();
-    }
+    m_expression += "%";
+    emit expressionChanged();
 }
 
 void CalculatorLogic::toggleSign()
 {
-    QString &target = m_op.isEmpty() ? m_left : m_right;
-    if (!target.isEmpty() && target != "0") {
-        if (target.startsWith('-'))
-            target.remove(0, 1);
-        else
-            target.prepend('-');
-        m_result = target;
-        updateExpression();
-        updateResult();
-    }
+    m_expression = "-(" + m_expression + ")";
+    emit expressionChanged();
+}
+
+void CalculatorLogic::pressEquals()
+{
+    QJSEngine engine;
+    QString expr = m_expression;
+    expr.replace("×", "*").replace("÷", "/").replace("%", "/100");
+    QJSValue result = engine.evaluate(expr);
+
+    if (result.isError())
+        m_result = "Error";
+    else
+        m_result = result.toString();
+
+    emit resultChanged();
 }
 
 void CalculatorLogic::clearAll()
 {
-    m_left.clear();
-    m_right.clear();
-    m_op.clear();
     m_expression.clear();
     m_result = "0";
     emit expressionChanged();
     emit resultChanged();
-}
-
-void CalculatorLogic::updateExpression()
-{
-    if (m_op.isEmpty()) {
-        m_expression = m_left;
-    } else {
-        m_expression = m_left + " " + m_op + " " + m_right;
-    }
-    emit expressionChanged();
-}
-
-void CalculatorLogic::updateResult()
-{
-    emit resultChanged();
-}
-
-double CalculatorLogic::calculate(double a, double b, const QString &op) const
-{
-    if (op == "+") return a + b;
-    if (op == "-") return a - b;
-    if (op == "*") return a * b;
-    if (op == "/") return b != 0 ? a / b : 0;
-    return 0;
 }
 
 void CalculatorLogic::startLongPress()
