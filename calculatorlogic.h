@@ -24,7 +24,6 @@ public:
     Q_INVOKABLE void pressPercent();
     Q_INVOKABLE void toggleSign();
     Q_INVOKABLE void clearAll();
-
     Q_INVOKABLE void inputParenthesis(const QString &par);
 
     Q_INVOKABLE void startLongPress();
@@ -39,13 +38,13 @@ signals:
 private:
     QString m_expression;
     QString m_result;
-
     bool m_secretModeActive = false;
     QString m_secretInput;
     QTimer m_secretCodeTimer;
     QTimer m_longPressTimer;
 
-    void updateResult();
+    bool m_repeatEquals = false;
+    void evaluateExpression();
 };
 
 #endif // CALCULATORLOGIC_H
