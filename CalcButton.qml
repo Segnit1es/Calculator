@@ -3,11 +3,9 @@ import QtQuick.Controls 2.15
 
 Rectangle {
     id: root
-
-    // интерфейс
     property alias text: label.text
-    property color bg: "#BFE9EE"
-    property color textColor: "#013A3A"
+    property color bg: "#B0D1D8"
+    property color textColor: "#024873"
     property int size: 64
 
     signal clicked()
@@ -18,17 +16,14 @@ Rectangle {
     height: size
     radius: width / 2
 
-    // фон по умолчанию
     color: bg
     border.width: 1
     border.color: Qt.darker(color, 1.2)
 
-    // анимация нажатия
     property bool down: false
     Behavior on scale { NumberAnimation { duration: 80 } }
     scale: down ? 0.97 : 1.0
 
-    // подсветка (на 100 мс)
     Rectangle {
         anchors.fill: parent
         radius: parent.radius
@@ -41,17 +36,22 @@ Rectangle {
         id: label
         anchors.centerIn: parent
         color: textColor
-        font.pixelSize: 20
+        font.pixelSize: 24
+        font.letterSpacing: 1
         font.weight: Font.Bold
         z: 2
     }
 
     MouseArea {
         anchors.fill: parent
-        onPressed: root.down = true
+        onPressed: {
+            root.down = true
+            root.pressed()
+        }
         onReleased: {
             root.down = false
             flashTimer.start()
+            root.released()
             root.clicked()
         }
         onCanceled: root.down = false

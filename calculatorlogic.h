@@ -5,31 +5,30 @@
 #include <QString>
 #include <QTimer>
 
-class CalculatorLogic : public QObject {
+class CalculatorLogic : public QObject
+{
     Q_OBJECT
     Q_PROPERTY(QString expression READ expression NOTIFY expressionChanged)
     Q_PROPERTY(QString result READ result NOTIFY resultChanged)
 
 public:
-    explicit CalculatorLogic(QObject* parent = nullptr);
+    explicit CalculatorLogic(QObject *parent = nullptr);
 
-    // Свойства
     QString expression() const { return m_expression; }
     QString result() const { return m_result; }
 
-    // Методы для QML
-    Q_INVOKABLE void inputDigit(const QString &d);
-    Q_INVOKABLE void inputPoint();
-    Q_INVOKABLE void pressOperator(const QString &op); // "+", "-", "*", "/"
+    Q_INVOKABLE void inputDigit(const QString &digit);
+    Q_INVOKABLE void inputDot();
+    Q_INVOKABLE void pressOperator(const QString &op);
     Q_INVOKABLE void pressEquals();
-    Q_INVOKABLE void clearAll();
-    Q_INVOKABLE void backspace();
-    Q_INVOKABLE void toggleSign();
     Q_INVOKABLE void pressPercent();
+    Q_INVOKABLE void toggleSign();
+    Q_INVOKABLE void clearAll();
 
     Q_INVOKABLE void startLongPress();
     Q_INVOKABLE void endLongPress();
     Q_INVOKABLE void checkSecretCode(const QString &digit);
+
 
 signals:
     void expressionChanged();
@@ -37,27 +36,21 @@ signals:
     void showSecretMenu();
 
 private:
-    QString m_expression;      // что показываем в верхней строке
-    QString m_result;          // что показываем в нижней строке
+    QString m_left;
+    QString m_right;
+    QString m_op;
+    QString m_expression;
+    QString m_result;
+    QString m_history;
 
-    QString m_left;            // левый операнд
-    QString m_right;           // правый операнд
-    QString m_op;              // оператор
-    bool m_editingRight = false;
-
-    void updateExpressionFromState();
-    void updateResultFromState();
-    QString computeCurrentOperation();
-
-    QString addDecimalStrings(const QString &a, const QString &b);
-    QString subDecimalStrings(const QString &a, const QString &b);
-    int compareDecimalStrings(const QString &a, const QString &b);
-    QString normalizeStrip(const QString &s);
-
-    QTimer m_longPressTimer;
-    QTimer m_secretCodeTimer;
-    bool m_secretModeActive;
+    bool m_secretModeActive = false;
     QString m_secretInput;
+    QTimer m_secretCodeTimer;
+    QTimer m_longPressTimer;
+
+    void updateExpression();
+    void updateResult();
+    double calculate(double a, double b, const QString &op) const;
 };
 
 #endif // CALCULATORLOGIC_H
