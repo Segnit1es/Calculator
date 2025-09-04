@@ -12,8 +12,7 @@ ApplicationWindow {
 
     FontLoader {
         id: openSans
-        source: "qrc:/fonts/OpenSans-SemiBold.ttf"
-
+        source: ":/OpenSans-SemiBold.ttf"
     }
     font.family: openSans.name
 
@@ -25,26 +24,59 @@ ApplicationWindow {
         anchors.margins: 0
 
         Rectangle {
+            id: statusBar
+            color: "#04BFAD"
+            width: parent.width
+            height: parent.width * 0.08
+            z: 1
+
+            RowLayout {
+                anchors.fill: parent
+                anchors.margins: width * 0.03
+                spacing: width * 0.03
+
+                Item { Layout.fillWidth: true }
+
+                Text {
+                    id: timeText
+                    text: Qt.formatTime(new Date(), "hh:mm")
+                    color: "white"
+                    font.pixelSize: 14
+                    horizontalAlignment: Text.AlignRight
+                }
+            }
+
+            Timer {
+                interval: 1000
+                running: true
+                repeat: true
+                onTriggered: timeText.text = Qt.formatTime(new Date(), "hh:mm")
+            }
+        }
+
+        Rectangle {
             id: topBlock
             width: parent.width
-            height: 240
-            color: "#00A89D"
-            radius: 24
+            height: parent.height * 0.3
+            color: "#04BFAD"
+            radius: parent.width * 0.05
             anchors.top: parent.top
             anchors.left: parent.left
             anchors.right: parent.right
+            anchors.topMargin: parent.height * 0.05 - statusBar.height * 0.7
+            z: 0
 
             ColumnLayout {
                 anchors.fill: parent
-                anchors.margins: 24
-                spacing: 12
+                anchors.margins: parent.width * 0.05
+                spacing: parent.height * 0.02
 
                 Text {
                     id: expressionText
                     text: calc.expression
                     font.pixelSize: 20
                     font.letterSpacing: 0.5
-                    color: "#CFF2EE"
+                    color: "#FFFFFF"
                     horizontalAlignment: Text.AlignRight
                     Layout.fillWidth: true
                     elide: Text.ElideRight
@@ -55,7 +87,7 @@ ApplicationWindow {
                     font.pixelSize: 50
                     font.letterSpacing: 0.5
                     font.bold: true
-                    color: "white"
+                    color: "#FFFFFF"
                     horizontalAlignment: Text.AlignRight
                     Layout.fillWidth: true
                     elide: Text.ElideRight
@@ -71,25 +103,17 @@ ApplicationWindow {
             anchors.right: parent.right
             color: "#024873"
 
-
             Grid {
                 id: keyGrid
                 anchors.fill: parent
-                anchors.margins: 24
+                anchors.margins: parent.width * 0.05
                 columns: 4
-                rowSpacing: 16
-                columnSpacing: 16
+                rowSpacing: parent.height * 0.02
+                columnSpacing: parent.width * 0.02
 
                 property int btnSize: 64
 
-                CalcButton { text: "()" ; bg: "#0889A6"; textColor: "#FFFFFF"; onClicked: {
-                        if (openBracket) {
-                            calc.inputParenthesis("(")
-                        } else {
-                            calc.inputParenthesis(")")
-                        }
-                        openBracket = !openBracket
-                    } }
+                CalcButton { text: "()" ; bg: "#0889A6"; textColor: "#FFFFFF"; onClicked: { if (openBracket) calc.inputParenthesis("("); else calc.inputParenthesis(")"); openBracket = !openBracket } }
                 CalcButton { text: "+/-" ; bg: "#0889A6"; textColor: "#FFFFFF" ; onClicked: calc.toggleSign() }
                 CalcButton { text: "%" ; bg: "#0889A6"; textColor: "#FFFFFF" ; onClicked: calc.pressPercent() }
                 CalcButton { text: "÷" ; bg: "#0889A6"; textColor: "#FFFFFF" ; onClicked: calc.pressOperator("/") }
@@ -125,11 +149,12 @@ ApplicationWindow {
 
         Column {
             anchors.centerIn: parent
-            spacing: 20
+            spacing: parent.height * 0.03
             Text { text: "Секретное меню"; font.pixelSize: 24; color: "white" }
             Button { text: "Назад"; onClicked: showSecretMenu = false }
         }
     }
+
     Connections {
         target: calc
         function onShowSecretMenu() {

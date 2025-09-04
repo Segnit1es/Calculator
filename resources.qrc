@@ -2,4 +2,10 @@
     <qresource prefix="/fonts">
         <file>OpenSans-SemiBold.ttf</file>
     </qresource>
+    <qresource prefix="/">
+        <file>BatteryIcon.qml</file>
+        <file>WifiIcon.qml</file>
+        <file>NetworcIcon.qml</file>
+        <file>StatusBar.qml</file>
+    </qresource>
 </RCC>
