@@ -1,11 +1,8 @@
 <RCC>
-    <qresource prefix="/fonts">
-        <file>OpenSans-SemiBold.ttf</file>
+    <qresource prefix="/img">
+        <file>img/icon.png</file>
     </qresource>
-    <qresource prefix="/">
-        <file>BatteryIcon.qml</file>
-        <file>WifiIcon.qml</file>
-        <file>NetworcIcon.qml</file>
-        <file>StatusBar.qml</file>
+    <qresource prefix="/fonts">
+        <file>fonts/OpenSans-SemiBold.ttf</file>
     </qresource>
 </RCC>

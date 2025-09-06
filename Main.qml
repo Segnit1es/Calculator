@@ -12,7 +12,7 @@ ApplicationWindow {
 
     FontLoader {
         id: openSans
-        source: ":/OpenSans-SemiBold.ttf"
+        source: "qrc:/fonts/fonts/OpenSans-SemiBold.ttf"
     }
     font.family: openSans.name
 
@@ -30,7 +30,7 @@ ApplicationWindow {
             height: parent.width * 0.08
             z: 1
 
-            RowLayout {
+            /*RowLayout {
                 anchors.fill: parent
                 anchors.margins: width * 0.03
                 spacing: width * 0.03
@@ -51,6 +51,14 @@ ApplicationWindow {
                 running: true
                 repeat: true
                 onTriggered: timeText.text = Qt.formatTime(new Date(), "hh:mm")
+            }*/
+            Image {
+                id: icon
+                anchors.centerIn: parent
+                source: "qrc:/img/img/icon.png"
+                width: parent.width
+                height: parent.height
+
             }
         }
 
@@ -103,7 +111,7 @@ ApplicationWindow {
             anchors.right: parent.right
             color: "#024873"
 
-            Grid {
+            GridLayout {
                 id: keyGrid
                 anchors.fill: parent
                 anchors.margins: parent.width * 0.05
@@ -113,30 +121,30 @@ ApplicationWindow {
 
                 property int btnSize: 64
 
-                CalcButton { text: "()" ; bg: "#0889A6"; textColor: "#FFFFFF"; onClicked: { if (openBracket) calc.inputParenthesis("("); else calc.inputParenthesis(")"); openBracket = !openBracket } }
-                CalcButton { text: "+/-" ; bg: "#0889A6"; textColor: "#FFFFFF" ; onClicked: calc.toggleSign() }
-                CalcButton { text: "%" ; bg: "#0889A6"; textColor: "#FFFFFF" ; onClicked: calc.pressPercent() }
-                CalcButton { text: "÷" ; bg: "#0889A6"; textColor: "#FFFFFF" ; onClicked: calc.pressOperator("/") }
+                FuncButton { text: "()" ;  onClicked: { if (openBracket) calc.inputParenthesis("("); else calc.inputParenthesis(")"); openBracket = !openBracket } }
+                FuncButton { text: "+/-" ; onClicked: calc.toggleSign() }
+                FuncButton { text: "%" ; onClicked: calc.pressPercent() }
+                FuncButton { text: "÷" ;  onClicked: calc.pressOperator("/") }
 
-                CalcButton { text: "7" ; onClicked: calc.inputDigit(text) }
-                CalcButton { text: "8" ; onClicked: calc.inputDigit(text) }
-                CalcButton { text: "9" ; onClicked: calc.inputDigit(text) }
-                CalcButton { text: "×" ; bg: "#0889A6"; textColor: "#FFFFFF" ; onClicked: calc.pressOperator("*") }
+                DigitButton { text: "7" ; onClicked: calc.inputDigit(text) }
+                DigitButton { text: "8" ; onClicked: calc.inputDigit(text) }
+                DigitButton { text: "9" ; onClicked: calc.inputDigit(text) }
+                FuncButton { text: "×" ; onClicked: calc.pressOperator("*") }
 
-                CalcButton { text: "4" ; onClicked: calc.inputDigit(text) }
-                CalcButton { text: "5" ; onClicked: calc.inputDigit(text) }
-                CalcButton { text: "6" ; onClicked: calc.inputDigit(text) }
-                CalcButton { text: "−" ; bg: "#0889A6"; textColor: "#FFFFFF" ; onClicked: calc.pressOperator("-") }
+                DigitButton { text: "4" ; onClicked: calc.inputDigit(text) }
+                DigitButton { text: "5" ; onClicked: calc.inputDigit(text) }
+                DigitButton { text: "6" ; onClicked: calc.inputDigit(text) }
+                FuncButton { text: "−" ; onClicked: calc.pressOperator("-") }
 
-                CalcButton { text: "1" ; onClicked: calc.inputDigit(text) }
-                CalcButton { text: "2" ; onClicked: calc.inputDigit(text) }
-                CalcButton { text: "3" ; onClicked: calc.inputDigit(text) }
-                CalcButton { text: "+" ; bg: "#0889A6"; textColor: "#FFFFFF" ; onClicked: calc.pressOperator("+") }
+                DigitButton { text: "1" ; onClicked: calc.inputDigit(text) }
+                DigitButton { text: "2" ; onClicked: calc.inputDigit(text) }
+                DigitButton { text: "3" ; onClicked: calc.inputDigit(text) }
+                FuncButton { text: "+" ; onClicked: calc.pressOperator("+") }
 
-                CalcButton { text: "C" ; bg: "#F25E5E"; textColor: "#FFFFFF" ; onClicked: calc.clearAll() }
-                CalcButton { text: "0" ; onClicked: calc.inputDigit(text) }
-                CalcButton { text: "." ; onClicked: calc.inputDot() }
-                CalcButton { text: "=" ; bg: "#0889A6"; textColor: "#FFFFFF" ; onPressed: calc.startLongPress() ; onReleased: calc.endLongPress() }
+                ClearButton { text: "C" ; onClicked: calc.clearAll() }
+                DigitButton { text: "0" ; onClicked: calc.inputDigit(text) }
+                DigitButton { text: "." ; onClicked: calc.inputDot() }
+                FuncButton { text: "=" ;  onPressed: calc.startLongPress() ; onReleased: calc.endLongPress() }
             }
         }
     }
@@ -162,3 +170,4 @@ ApplicationWindow {
         }
     }
 }
+

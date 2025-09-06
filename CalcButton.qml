@@ -3,9 +3,14 @@ import QtQuick.Controls 2.15
 
 Rectangle {
     id: root
+
     property alias text: label.text
-    property color bg: "#B0D1D8"
-    property color textColor: "#024873"
+
+    property color primaryBg: "#B0D1D8"
+    property color primaryText: "#024873"
+    property color altBg: "#FFD93D"
+    property color altText: "#024873"
+
     property int size: 64
 
     signal clicked()
@@ -16,9 +21,9 @@ Rectangle {
     height: size
     radius: width / 2
 
-    color: bg
+    color: primaryBg
     border.width: 1
-    border.color: Qt.darker(color, 1.2)
+    border.color: Qt.darker(primaryBg, 1.2)
 
     property bool down: false
     Behavior on scale { NumberAnimation { duration: 80 } }
@@ -27,7 +32,7 @@ Rectangle {
     Rectangle {
         anchors.fill: parent
         radius: parent.radius
-        color: "#FFD93D"
+        color: altBg
         visible: flashTimer.running
         z: 1
     }
@@ -35,7 +40,7 @@ Rectangle {
     Text {
         id: label
         anchors.centerIn: parent
-        color: textColor
+        color: flashTimer.running ? altText : primaryText
         font.pixelSize: 24
         font.letterSpacing: 1
         font.weight: Font.Bold

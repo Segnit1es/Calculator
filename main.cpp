@@ -9,6 +9,7 @@ int main(int argc, char *argv[])
 
     QQmlApplicationEngine engine;
     CalculatorLogic calc;
+    Q_INIT_RESOURCE(resources);
     engine.rootContext()->setContextProperty("calc", &calc);
     QObject::connect(
         &engine,
