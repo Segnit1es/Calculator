@@ -16,6 +16,9 @@ Rectangle {
     property string fontFamily: ""
     property real fontFactor: 1.0
 
+    property url source: ""
+    property bool useImage: source != ""
+
     signal clicked()
     signal released()
     signal pressed()
@@ -42,6 +45,7 @@ Rectangle {
 
     Text {
         id: label
+        visible: !useImage
         anchors.centerIn: parent
         color: flashTimer.running ? altText : primaryText
         font.pixelSize: 24 * fontFactor
@@ -49,6 +53,17 @@ Rectangle {
         font.family: fontFamily
         z: 2
     }
+
+    Image {
+        id: icon
+        anchors.centerIn: parent
+        visible: useImage
+        source: root.source
+        width: parent.width * 0.6 * fontFactor
+        height: parent.height * 0.6 * fontFactor
+        fillMode: Image.PreserveAspectFit
+        z: 3
+        }
 
     MouseArea {
         anchors.fill: parent

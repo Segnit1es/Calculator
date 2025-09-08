@@ -1,6 +1,14 @@
 <RCC>
     <qresource prefix="/img">
         <file>img/icon.png</file>
+        <file>img/iconsFunc/bracket-Photoroom.png</file>
+        <file>img/iconsFunc/div-Photoroom.png</file>
+        <file>img/iconsFunc/eq-Photoroom.png</file>
+        <file>img/iconsFunc/minus-Photoroom.png</file>
+        <file>img/iconsFunc/mul-Photoroom.png</file>
+        <file>img/iconsFunc/percent-Photoroom.png</file>
+        <file>img/iconsFunc/plus-Photoroom.png</file>
+        <file>img/iconsFunc/plus_minus-Photoroom.png</file>
     </qresource>
     <qresource prefix="/fonts">
         <file>fonts/OpenSans-SemiBold.ttf</file>

@@ -138,6 +138,7 @@ ApplicationWindow {
                     }
                     fontFamily: openSans.name
                     fontFactor: app.fontFactor
+                    source: "qrc:/img/img/iconsFunc/bracket-Photoroom.png"
                 }
                 FuncButton {
                     width: keyGrid.btnSize
@@ -146,6 +147,7 @@ ApplicationWindow {
                     onClicked: calc.toggleSign()
                     fontFamily: openSans.name
                     fontFactor: app.fontFactor
+                    source: "qrc:/img/img/iconsFunc/plus_minus-Photoroom.png"
                 }
                 FuncButton {
                     width: keyGrid.btnSize
@@ -154,6 +156,7 @@ ApplicationWindow {
                     onClicked: calc.pressPercent()
                     fontFamily: openSans.name
                     fontFactor: app.fontFactor
+                    source: "qrc:/img/img/iconsFunc/percent-Photoroom.png"
                 }
                 FuncButton {
                     width: keyGrid.btnSize
@@ -162,6 +165,7 @@ ApplicationWindow {
                     onClicked: calc.pressOperator("/")
                     fontFamily: openSans.name
                     fontFactor: app.fontFactor
+                    source: "qrc:/img/img/iconsFunc/div-Photoroom.png"
                 }
 
                 DigitButton {
@@ -195,6 +199,7 @@ ApplicationWindow {
                     onClicked: calc.pressOperator("*")
                     fontFamily: openSans.name
                     fontFactor: app.fontFactor
+                    source: "qrc:/img/img/iconsFunc/mul-Photoroom.png"
                 }
 
                 DigitButton {
@@ -228,6 +233,7 @@ ApplicationWindow {
                     onClicked: calc.pressOperator("-")
                     fontFamily: openSans.name
                     fontFactor: app.fontFactor
+                    source: "qrc:/img/img/iconsFunc/minus-Photoroom.png"
                 }
 
                 DigitButton {
@@ -261,6 +267,7 @@ ApplicationWindow {
                     onClicked: calc.pressOperator("+")
                     fontFamily: openSans.name
                     fontFactor: app.fontFactor
+                    source: "qrc:/img/img/iconsFunc/plus-Photoroom.png"
                 }
 
                 ClearButton {
@@ -286,6 +293,7 @@ ApplicationWindow {
                     onClicked: calc.inputDot()
                     fontFamily: openSans.name
                     fontFactor: app.fontFactor
+
                 }
                 FuncButton {
                     width: keyGrid.btnSize
@@ -295,6 +303,7 @@ ApplicationWindow {
                     onReleased: calc.endLongPress()
                     fontFamily: openSans.name
                     fontFactor: app.fontFactor
+                    source: "qrc:/img/img/iconsFunc/eq-Photoroom.png"
                 }
             }
         }
