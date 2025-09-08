@@ -13,6 +13,9 @@ Rectangle {
 
     property int size: 64
 
+    property string fontFamily: ""
+    property real fontFactor: 1.0
+
     signal clicked()
     signal released()
     signal pressed()
@@ -41,9 +44,9 @@ Rectangle {
         id: label
         anchors.centerIn: parent
         color: flashTimer.running ? altText : primaryText
-        font.pixelSize: 24
-        font.letterSpacing: 1
-        font.weight: Font.Bold
+        font.pixelSize: 24 * fontFactor
+        font.letterSpacing: 1 * fontFactor
+        font.family: fontFamily
         z: 2
     }
 
