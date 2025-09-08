@@ -1,8 +1,8 @@
 import QtQuick 2.15
 
 CalcButton {
-    primaryBg: "#F25E5E"
+    primaryBg: "#ffb5b5"
     primaryText: "#FFFFFF"
-    altBg: "#ffb5b5"
+    altBg: "#F25E5E"
     altText: "#FFFFFF"
 }
